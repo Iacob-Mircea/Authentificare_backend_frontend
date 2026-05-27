@@ -1,35 +1,52 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_restful import reqparse,Api,abort,marshal_with,fields,Resource
+from flask import Flask,request,jsonify
+from flask_restx import Api
+from flask_jwt_extended import JWTManager
+from flask_cors import CORS
+from exts import db,migrate
+from taskmanagements import task_ns
+from auth import auth_ns
+from config import DevConfig
+from listManagement import listM_ns
+from flask_migrate import Migrate
+from homepage import land
+from calendar_api import calendar_ns
+from models import UserModel,Management,EventModel
 
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///datebase.db'
-db = SQLAlchemy(app)
-api = Api(app)
-with app.app_context():
-    db.create_all()
-
-class UserModel(db.Model):
-    id = db.Column(db.Integer,primary_key = True)
-    name = db.Column(db.String(80))
-    password = db.Column(db.String(80))
-    def __repr__(self):
-        return f"User id : {self.id} , name : {self.name}"
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(DevConfig)
+    db.init_app(app)
+    api = Api(app,doc='/docs')
     
-user_args = reqparse.RequestParser()
-user_args.add_argument("name",type = str,required = True,help = "cannot be blank")
-user_args.add_argument("password",type = str,required = True,help = "cannot be blank")
+    migrate.init_app(app,db)
+    JWTManager(app)
+    CORS(app,origins=["http://localhost:3000"])
+    
+    api.add_namespace(land)
+    api.add_namespace(task_ns)
+    api.add_namespace(auth_ns)
+    api.add_namespace(listM_ns)
+    api.add_namespace(calendar_ns)
+    @app.shell_context_processor
+    def make_shell_context():
+        return {
+            "db":db,
+            "Announces":Management,
+            "User":UserModel,
+            "Event":EventModel
+        }
+    return app
 
-@app.route("/",method = "POST")
-def log_in():
-    data = request.json
-    username = data["name"]
-    password = data[password]
-        
-
-def main():
-    print("Hello from login-flask!")
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
+
+
+
+
+
+
+
+
+
+
+
