@@ -92,8 +92,7 @@ class TaskModel(db.Model):
             self.assign = assign
         db.session.commit()
 
-    
-    
+
 
 
 class ListManagement(db.Model):
@@ -161,3 +160,28 @@ class EventModel(db.Model):
         if color is not None:
             self.color = color
         db.session.commit()
+
+class RefreshToken(db.Model):
+    __tablename__ = "refresh"
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"),nullable=False,name="id_U",primary_key = True)
+    acces = db.Column(db.String(200),nullable = False)
+    refresh = db.Column(db.String(200),nullable = False)
+    valid = db.Column(db.Boolean)
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def update(self,valid,acces = None,refresh = None,):
+        if acces is not None:
+            self.acces = acces
+        if refresh is not None:
+            self.refresh = refresh
+        if valid != self.valid:
+            self.valid = valid
+        db.session.commit()
+

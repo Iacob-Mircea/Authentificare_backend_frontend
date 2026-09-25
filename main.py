@@ -20,7 +20,7 @@ def create_app():
     
     migrate.init_app(app,db)
     JWTManager(app)
-    CORS(app,origins=["http://localhost:3000"])
+    CORS(app,origins=["http://192.168.56.1:3000"])
     
     api.add_namespace(land)
     api.add_namespace(task_ns)

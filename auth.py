@@ -2,7 +2,7 @@ from flask_restx import Api,Resource,Namespace,fields,marshal_with
 from flask import jsonify
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_jwt_extended import create_access_token,create_refresh_token
-from models import UserModel
+from models import UserModel, RefreshToken
 from flask import request
 from flask_jwt_extended import jwt_required,get_jwt_identity
 
@@ -80,6 +80,7 @@ class LoginResource(Resource):
         if user and check_password_hash(user.password,password):
             access_token = create_access_token(identity=str(user.id))
             refresh_token = create_refresh_token(identity=str(user.id))
+            
             return {"access token":access_token,"refresh token":refresh_token},200
     
         return {"message":"Incorect password or user"},400  
