@@ -1,6 +1,7 @@
 from exts import db
 from datetime import datetime
 
+
 class UserModel(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer,primary_key = True)

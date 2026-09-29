@@ -3,6 +3,7 @@ from flask import jsonify
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_jwt_extended import create_access_token,create_refresh_token
 from models import UserModel, RefreshToken
+
 from flask import request
 from flask_jwt_extended import jwt_required,get_jwt_identity
 

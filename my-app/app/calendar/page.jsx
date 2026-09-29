@@ -8,6 +8,7 @@ import EventModal from "../../components/EventModal";
 
 export default function CalendarPage() {
   const [filterType, setFilterType] = useState("all");
+  const [selectedCalendarId, setSelectedCalendarId] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
   const [editingEvent, setEditingEvent] = useState(null);
@@ -61,6 +62,7 @@ export default function CalendarPage() {
           </button>
 
           <CalendarView
+           calendarId={selectedCalendarId}
             filterType={filterType}
             onDateSelect={handleDateSelect}
             onEventClick={handleEventClick}
@@ -74,6 +76,15 @@ export default function CalendarPage() {
             selectedRange={selectedRange}
             editingEvent={editingEvent}
           />
+          <select
+          value={selectedCalendarId ?? ""}
+          onChange={(e) => setSelectedCalendarId(Number(e.target.value))}
+        >
+          <option value="">Alege calendarul</option>
+          <option value="1">uu</option>
+          <option value="2">Muncă</option>
+          <option value="3">Personal</option>
+        </select>
       </div>
     </ProtectedRoute>
   );

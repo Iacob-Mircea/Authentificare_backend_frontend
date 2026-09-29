@@ -178,6 +178,15 @@ export async function fetchManagements() {
   return response.json();
 }
 
+export async function fetchManagement(id) {
+  const response = await apiFetch(`/task/management/${id}`,{
+    method : "GET"
+
+  });
+  if (!response.ok) return null;
+  return response.json();
+}
+
 export async function createManagement(payload) {
   const response = await apiFetch("/task/management", {
     method: "POST",

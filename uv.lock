@@ -839,6 +839,7 @@ dependencies = [
     { name = "python-dateutil" },
     { name = "python-decouple" },
     { name = "python-dotenv" },
+    { name = "requests" },
     { name = "sqlalchemy" },
 ]
 
@@ -859,6 +860,7 @@ requires-dist = [
     { name = "python-dateutil", specifier = ">=2.9.0.post0" },
     { name = "python-decouple", specifier = ">=3.8" },
     { name = "python-dotenv", specifier = ">=1.2.3" },
+    { name = "requests", specifier = ">=2.34.2" },
     { name = "sqlalchemy", specifier = ">=2.0.48" },
 ]
 

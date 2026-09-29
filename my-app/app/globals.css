@@ -688,3 +688,57 @@ body {
     padding: 16px;
   }
 }
+
+.agentButton {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+
+    width: 60px;
+    height: 60px;
+
+    border-radius: 50%;
+    border: none;
+
+    cursor: pointer;
+    font-size: 25px;
+}
+
+.agentWindow {
+    position: fixed;
+    right: 25px;
+    bottom: 95px;
+
+    width: 350px;
+    height: 500px;
+
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+
+    display: flex;
+    flex-direction: column;
+}
+
+.agentHeader {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    font-weight: bold;
+}
+
+.agentBody {
+    flex: 1;
+    padding: 15px;
+}
+
+.agentInput {
+    display: flex;
+    padding: 10px;
+    gap: 5px;
+}
+
+.agentInput input {
+    flex: 1;
+}

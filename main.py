@@ -4,6 +4,7 @@ from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from exts import db,migrate
 from taskmanagements import task_ns
+from exts import agent_creation
 from auth import auth_ns
 from config import DevConfig
 from listManagement import listM_ns
@@ -14,10 +15,11 @@ from models import UserModel,Management,EventModel
 
 def create_app():
     app = Flask(__name__)
+
     app.config.from_object(DevConfig)
     db.init_app(app)
     api = Api(app,doc='/docs')
-    
+    agent = agent_creation()
     migrate.init_app(app,db)
     JWTManager(app)
     CORS(app,origins=["http://192.168.56.1:3000"])

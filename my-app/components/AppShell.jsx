@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "../context/AuthContext";
+import AgentWrapper from "./AgentWrapper";
 
 export default function AppShell({ children }) {
   const { authenticated, logout } = useAuth();
@@ -49,7 +50,10 @@ export default function AppShell({ children }) {
         </nav>
       </header>
 
-      <main className="appMain">{children}</main>
+      <main className="appMain">
+        {children}
+      <AgentWrapper />
+      </main>
     </div>
   );
 }

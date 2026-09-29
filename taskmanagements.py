@@ -126,6 +126,14 @@ class TaskManagement(Resource):
                 TaskModel.startHour >= start_dt,
                 TaskModel.startHour <= end_dt,
             )
+        elif start:
+            query = query.filter(
+                            TaskModel.startHour >= start_dt,
+                        )
+        elif end:
+            query = query.filter(
+                            TaskModel.startHour <= end_dt,
+                        )
 
         tasks = query.all()
         return tasks, 200
@@ -190,3 +198,4 @@ class TaskManagementID(Resource):
             return {"message": "Nu exista acest task"}, 401
         task.delete()
         return {"message": "schimbari efectuate"}, 200
+
