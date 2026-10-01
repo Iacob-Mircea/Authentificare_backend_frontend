@@ -9,6 +9,7 @@ import requests
 
 
 
+
 load_dotenv()
 
 def parse_date(data):
@@ -19,11 +20,13 @@ def create_event():
     pass
 
 
-def run_agent(question : dict)->str:
-    
+def run_agent(question : str)->str:
     result = agent.invoke({"messages": [{"role": "user", "content": question}]})
-    
-   
+    structured = result["structured_response"]
 
+    response_data = structured.model_dump()
+    return response_data,200
 
+if __name__ == "__main__":
+    run_agent()
 

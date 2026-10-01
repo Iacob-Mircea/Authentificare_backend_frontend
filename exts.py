@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from langchain.agents import create_agent
 from agent.tools import create_task
+from pydantic import BaseModel
 SYSTEMPROMPT = """
 You are an AI task and event management agent.
 
@@ -61,7 +62,7 @@ Create a Task:
 ```json
 {
   "description": "Finish the authentication system",
-  "data": "tomorrow",
+  "data": "2023-10-01",
   "startHour": "10:00",
   "endHour": "11:00",
   "assign": false
@@ -88,8 +89,14 @@ Do not create an object if the required information is missing.
 
 """
 
+class ResposeFormat(BaseModel):
+    response : str
+    calendar_change : bool
+
+def agent_creation():
+    agent = create_agent(model = "gpt-5-mini",tools = [create_task],system_prompt=SYSTEMPROMPT,response_format=ResposeFormat)
+    return agent
+
 db = SQLAlchemy()
 migrate = Migrate()
-def agent_creation():
-    agent = create_agent(model = "gpt-5-mini",tools = [create_task],system_prompt=SYSTEMPROMPT)
-    return agent
+agent = agent_creation()

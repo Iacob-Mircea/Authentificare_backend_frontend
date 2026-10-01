@@ -36,7 +36,7 @@ export default function LoginPage() {
       }
 
       setMessage("Login successful");
-      router.push("/calendar");
+      router.push("/choice");
     } catch (error) {
       setMessage("Server error");
       console.error(error);

@@ -5,6 +5,7 @@ import ProtectedRoute from "../../components/ProtectedRoute";
 import CalendarToolbar from "../../components/CalendarToolbar";
 import CalendarView from "../../components/CalendarView";
 import EventModal from "../../components/EventModal";
+import AgentWrapper from "../../components/AgentWrapper"
 
 export default function CalendarPage() {
   const [filterType, setFilterType] = useState("all");
@@ -22,6 +23,10 @@ export default function CalendarPage() {
     });
     setModalOpen(true);
   }
+  function handleCalendarChange() {
+    setRefreshKey(prev => prev + 1);
+}
+
 
   function handleEventClick(clickInfo) {
     setSelectedRange(null);
@@ -62,12 +67,14 @@ export default function CalendarPage() {
           </button>
 
           <CalendarView
-           calendarId={selectedCalendarId}
             filterType={filterType}
             onDateSelect={handleDateSelect}
             onEventClick={handleEventClick}
             refreshKey={refreshKey}
           />
+           <AgentWrapper
+            onCalendarChange={handleCalendarChange}
+        />
 
           <EventModal
             isOpen={modalOpen}
@@ -76,15 +83,7 @@ export default function CalendarPage() {
             selectedRange={selectedRange}
             editingEvent={editingEvent}
           />
-          <select
-          value={selectedCalendarId ?? ""}
-          onChange={(e) => setSelectedCalendarId(Number(e.target.value))}
-        >
-          <option value="">Alege calendarul</option>
-          <option value="1">uu</option>
-          <option value="2">Muncă</option>
-          <option value="3">Personal</option>
-        </select>
+          
       </div>
     </ProtectedRoute>
   );

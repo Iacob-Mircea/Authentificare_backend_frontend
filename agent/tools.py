@@ -1,23 +1,57 @@
-import os
 from flask import request
-from datetime import datetime,timedelta
+from datetime import datetime
 import requests
 
-def create_task(description : str,assign : bool, offsetDays : int,offsetHour : int,offsetMinutes : int ,accessToken : str,user_id : int,management_id : int,duration : int = 1):
+
+def create_task(
+    description: str,
+    assign: bool,
+    startHour: datetime,
+    endHour: datetime
+):
     """This tool is for creating a task.
-    - description : an string the description of the task
-    - assig : the task is assigned to the calendar or not
-    - offsetDays : offset in days of the task the user wants to create(ex: tomorrow = 1 , maine = 1, one week from now = 7 etc)
-    - offsetHour : the hour the user wants the task to begin(take as default pm)(ex :2 = 14, 2 in the morning = 2 etc )
-    - duration : the duration of the task if not specified it`s one hour
+
+    - description: The description of the task.
+    - assign: Whether the task is assigned to the calendar.
+    - startHour: The complete start date and time of the task.
+      Determine the correct date from the user's wording
+      (today, tomorrow, next Monday, etc.).
+    - endHour: The complete end date and time of the task.
+      If the user does not specify an end time or duration,
+      set it to exactly one hour after startHour.
+    - startHour and endHour must use the same timezone.
+    - Use ISO 8601 datetime format.
     """
-    date = datetime.now()
-    startHour = date + timedelta(days=offsetDays)
-    startHour = startHour.replace(hour= offsetHour,minute=offsetMinutes)
-    endHour = startHour + timedelta(hours= duration)
-    params = {"description" : description, "startHour": startHour,"endHour": endHour,"assign":assign,"management_id" : management_id,"user_id": user_id}
-    response = requests.post("http://127.0.0.1:5000/task/task/",headers={"Authorization": f"Bearer {accessToken}"},params=params)
+
+    accessToken = request.headers.get("Authorization")
+
+    data = {
+        "description": description,
+        "startHour": startHour.isoformat(),
+        "endHour": endHour.isoformat(),
+        "assign": assign,
+        "management_id": None
+    }
+
+    response = requests.post(
+        "http://127.0.0.1:5000/task/task/",
+        headers={
+            "Authorization": accessToken,
+            "Content-Type": "application/json"
+        },
+        json=data
+    )
+
+    print("REQUEST:", data)
+    print("RESPONSE:", response.text)
+
     if response.status_code == 201:
-        return "Task created successfully."
-    else:
-        return "Task did not create"
+        return {
+            "message": "Task created successfully.",
+            "calendar_update": True
+        }
+
+    return {
+        "message": "Task was not created.",
+        "calendar_update": False
+    }

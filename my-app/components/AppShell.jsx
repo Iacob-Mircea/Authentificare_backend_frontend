@@ -20,6 +20,12 @@ export default function AppShell({ children }) {
           {authenticated ? (
             <>
               <Link
+                href="/choice"
+                className={pathname === "/choice" ? "navLink active" : "navLink"}
+              >
+                Schedules
+              </Link>
+              <Link
                 href="/calendar"
                 className={pathname === "/calendar" ? "navLink active" : "navLink"}
               >

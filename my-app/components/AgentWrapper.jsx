@@ -3,7 +3,7 @@
 import {useAuth} from "../context/AuthContext"
 import AgentWidget from "./AgentWidget"
 
-export default function AgentWrapper(){
+export default function AgentWrapper({onCalendarChange}){
     const {authenticated,loading } = useAuth()
     if(loading){
         return null;
@@ -11,6 +11,6 @@ export default function AgentWrapper(){
     if(!authenticated)
         return null;
 
-    return <AgentWidget />;
+    return <AgentWidget onCalendarChange={onCalendarChange}/>;
 
 }

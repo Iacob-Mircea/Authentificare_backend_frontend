@@ -4,14 +4,11 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { isAuthenticated } from "../lib/api";
 
+
+
 function Page() {
   const route = useRouter();
 
-  useEffect(() => {
-    if (isAuthenticated()) {
-      route.push("/calendar");
-    }
-  }, [route]);
 
   return (
     <main className="homePage">
@@ -31,14 +28,25 @@ function Page() {
           <div className="heroButtons">
             <button
               className="primaryButton"
-              onClick={() => route.push("/auth/register")}
+
+              onClick={() => {if(isAuthenticated())
+                              route.push("/calendar");
+                            else
+                              route.push("/auth/register")
+                          }
+                          }
             >
               Get Started
             </button>
 
             <button
               className="secondaryButton"
-              onClick={() => route.push("/auth/login")}
+              onClick={() => {if(isAuthenticated())
+                              route.push("/calendar");
+                            else
+                              route.push("/auth/login")
+                          }
+                        }
             >
               Login
             </button>

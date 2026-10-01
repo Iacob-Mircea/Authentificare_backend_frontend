@@ -142,11 +142,19 @@ class TaskManagement(Resource):
     def post(self):
         data = request.get_json()
         user_id = current_user_id()
-
+        print(data)
         task_data = None
         if data.get("data"):
             task_data = parser.isoparse(data["data"]).date()
-
+        query = TaskModel.query.filter_by(description=data["description"],
+                    data=task_data,
+                    startHour=parse_api_datetime(data["startHour"]),
+                    endHour=parse_api_datetime(data["endHour"]),
+                    assign=data.get("assign", False),
+                    management_id=data.get("management_id"),
+                    user_id=user_id).first()
+        if query is not None:
+            return {"message":"Task already exists"},400
         newTask = TaskModel(
             description=data["description"],
             data=task_data,
