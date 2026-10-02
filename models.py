@@ -186,3 +186,29 @@ class RefreshToken(db.Model):
             self.valid = valid
         db.session.commit()
 
+
+class Conversation(db.Model):
+    __tablename__ = "conversation"
+    id = db.Column(db.Integer,primary_key = True)
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"),nullable=False,name="user_id")
+    created_at = db.Column(db.DateTime,nullable = False)
+
+    user = db.relationship("UserModel", backref="conversation")
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+
+class Messages(db.Model):
+    __tablename__ = "messages"
+    id = db.Column(db.Integer,primary_key = True)
+    message = db.Column(db.String(200),nullable = False)
+    conversation_id = db.Column(db.Integer,db.ForeignKey("conversation.id"),nullable = False,name = "conversation_id")
+    created_at = db.Column(db.DateTime,nullable = False)
+
+    conversation = db.relationship("Conversation",backref="messages")
+
+    def save(self):
+            db.session.add(self)
+            db.session.commit()

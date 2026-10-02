@@ -9,7 +9,7 @@ import AgentWrapper from "../../components/AgentWrapper"
 
 export default function CalendarPage() {
   const [filterType, setFilterType] = useState("all");
-  const [selectedCalendarId, setSelectedCalendarId] = useState(null);
+
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
   const [editingEvent, setEditingEvent] = useState(null);
@@ -26,7 +26,6 @@ export default function CalendarPage() {
   function handleCalendarChange() {
     setRefreshKey(prev => prev + 1);
 }
-
 
   function handleEventClick(clickInfo) {
     setSelectedRange(null);

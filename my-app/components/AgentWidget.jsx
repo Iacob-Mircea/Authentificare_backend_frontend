@@ -5,7 +5,9 @@ import { apiFetch } from "@/lib/api";
 
 export default function AgentWidget({ onCalendarChange }) {
     const [open, setOpen] = useState(false);
-
+    const [conversation, setConversation] = useState(() => {
+    return sessionStorage.getItem("conversation_id") || null;
+});
     // Textul pe care îl scrii acum în input
     const [message, setMessage] = useState("");
 
@@ -31,16 +33,29 @@ export default function AgentWidget({ onCalendarChange }) {
 
         // Golim input-ul
         setMessage("");
-
+        
         try {
+        
             const res = await apiFetch("/agent/agent", {
                 method: "POST",
                 body: JSON.stringify({
                     message: userMessage,
+                    convers : conversation,
                 }),
             });
 
             const data = await res.json();
+            if(conversation === null)
+            {
+                const conversationId = data.conversation;
+
+            setConversation(conversationId);
+
+            sessionStorage.setItem(
+                "conversation_id",
+                conversationId
+                );
+            }
             if (!res.ok) {
                 console.error(data);
                 return;
@@ -51,12 +66,12 @@ export default function AgentWidget({ onCalendarChange }) {
                 ...prev,
                 {
                     role: "assistant",
-                    content: data[0].response,
+                    content: data.result.response,
                 },
             ]);
-            if(data[0].calendar_change === true){
-                console.log("CALENDAR SHOULD REFRESH");
-                onCalendarChange;
+            if(data.result.calendar_change === true){
+                onCalendarChange();
+
             }
         } catch (error) {
             console.error("Agent error:", error);

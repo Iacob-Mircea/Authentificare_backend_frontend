@@ -39,6 +39,7 @@ export default function EventModal({
   const [message, setMessage] = useState("");
   const [saving, setSaving] = useState(false);
 
+
   useEffect(() => {
     if (isOpen) {
       fetchCategories().then(setCategories).catch(console.error);

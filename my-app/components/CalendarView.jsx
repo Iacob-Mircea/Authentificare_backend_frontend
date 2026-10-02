@@ -32,6 +32,8 @@ export default function CalendarView({
         end.toISOString(),
         filterType
       );
+
+
       setEvents(data);
     } catch (error) {
       console.error(error);
@@ -99,31 +101,32 @@ export default function CalendarView({
     <div className="calendarWrapper">
       {loading && <div className="calendarLoading">Se încarcă evenimentele...</div>}
       <FullCalendar
-        ref={calendarRef}
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
-        initialView="dayGridMonth"
-        headerToolbar={{
+      ref={calendarRef}
+      plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
+      initialView="dayGridMonth"
+      headerToolbar={{
           left: "prev,next today",
           center: "title",
           right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
-        }}
-        locale={roLocale}
-        firstDay={1}
-        editable
-        selectable
-        selectMirror
-        dayMaxEvents
-        weekends
-        events={events}
-        datesSet={loadEvents}
-        select={onDateSelect}
-        eventClick={onEventClick}
-        eventDrop={handleEventDrop}
-        eventResize={handleEventResize}
-        height="auto"
-        slotMinTime="06:00:00"
-        slotMaxTime="22:00:00"
-      />
+      }}
+      locale={roLocale}
+      timeZone="UTC"
+      firstDay={1}
+      editable
+      selectable
+      selectMirror
+      dayMaxEvents
+      weekends
+      events={events}
+      datesSet={loadEvents}
+      select={onDateSelect}
+      eventClick={onEventClick}
+      eventDrop={handleEventDrop}
+      eventResize={handleEventResize}
+      height="auto"
+      slotMinTime="06:00:00"
+      slotMaxTime="23:00:00"
+  />
     </div>
   );
 }

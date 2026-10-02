@@ -20,12 +20,24 @@ def create_event():
     pass
 
 
-def run_agent(question : str)->str:
-    result = agent.invoke({"messages": [{"role": "user", "content": question}]})
-    structured = result["structured_response"]
+def run_agent(question : str,context : list[str])->str:
+    messages = []
 
+    if context:
+        messages.extend(context)
+
+    messages.append({
+        "role": "user",
+        "content": question
+    })
+
+    result = agent.invoke({
+        "messages": messages
+    })
+
+    structured = result["structured_response"]
     response_data = structured.model_dump()
-    return response_data,200
+    return response_data
 
 if __name__ == "__main__":
     run_agent()

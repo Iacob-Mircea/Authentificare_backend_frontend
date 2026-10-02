@@ -1,5 +1,6 @@
 import os
 from decouple import config
+from datetime import timedelta
 
 BASE_DIR=os.path.dirname(os.path.realpath(__file__))
 
@@ -12,6 +13,8 @@ class DevConfig(Config):
     SQLALCHEMY_DATABASE_URI="sqlite:///"+os.path.join(BASE_DIR,'dev.db')
     DEBUG = True
     SQLALCHEMY_ECHO = True
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=15)
+    JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)
 
 class ProdConfig(Config):
     pass
